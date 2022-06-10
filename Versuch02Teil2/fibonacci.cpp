@@ -1,9 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////
-// Praktikum Informatik 1 MMXXII
+// Praktikum Informatik 1 SS2022
 // Versuch 02
 //
 // Datei:  main.cpp
 // Inhalt: Hauptprogramm
+//Mohamed Elkaramany (423765)
 //////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
@@ -23,7 +24,7 @@ int fibonacci(int n)
     for (int i = 2; i <= n; i++)		//i should start at 2 because we already finished i=0 and i=1 in previous if-statements
     {
 
-        int newFib = previousFib + currentFib ;
+        int newFib = previousFib + currentFib;
         int temp = previousFib;  //add temp
         previousFib = newFib ;
         currentFib = temp ; //set currentFib to temp instead of previousFib;

@@ -15,16 +15,19 @@ string verschluesseln(char schluessel[2][26], string wort)
 {
 	for(int i = 0 ; i<wort.length() ; i++)
 	{
-		char encryptedLetter;
-		if((int)wort[i] >= 97){	//falls wort[i] eine kleine Buchstabe ist
 
-			wort[i] = toupper(wort[i]);
-			encryptedLetter = tolower(schluessel[1][wort[i]-'A']);
-			wort[i] = encryptedLetter;
+		if(wort[i]<'A' || wort[i]>'z') // falls nicht buchstabe, dann betrachte das Zeichen nicht
+		{
 			continue;
 		}
-	   encryptedLetter = schluessel[1][wort[i]-'A'];
-		wort[i] = encryptedLetter;
+		if((int)wort[i] >= 97){	//falls wort[i] eine kleine Buchstabe ist
+
+			wort[i] = toupper(wort[i]);	//change to upper case
+
+			wort[i] =tolower(schluessel[1][wort[i]-'A']);
+			continue;
+		}
+		wort[i] = schluessel[1][wort[i]-'A'];
 	}
 
 	return wort;
@@ -35,16 +38,20 @@ string entschluesseln(char schluessel[2][26], string wort)
 	// Hier folgt Ihr Code
 	for(int i = 0 ; i<wort.length() ; i++)
 	{
-		char decryptedLetter;
+		if(wort[i]<'A' || wort[i]>'z') // falls nicht buchstabe, dann betrachte das Zeichen nicht
+		{
+					continue;
+		}
+
 		if((int)wort[i] >= 97){	//falls wort[i] eine kleine Buchstabe ist
 
 			wort[i] = toupper(wort[i]);
-			decryptedLetter = tolower(schluessel[1][wort[i]-'A']);
-			wort[i] = decryptedLetter;
+
+			wort[i] = tolower(schluessel[1][wort[i]-'A']);
 			continue;
 		}
-	   decryptedLetter = schluessel[1][wort[i]-'A'];
-		wort[i] = decryptedLetter;
+
+		wort[i] = schluessel[1][wort[i]-'A'];
 	}
 	return wort;
 }
@@ -61,14 +68,15 @@ int main()
 
  	string word;
  	cout<<"Bitte Geben Sie ein Wort ein, um es zu entschluessen"<<std::endl;
- 	cin>>word;
+ 	getline(cin , word);
+ 	//cin>>word;
 
  	string encryptedWord = verschluesseln(lutVerschluesseln,word);
  	string decryptedWord = entschluesseln(lutEntschluesseln ,encryptedWord);
 
- 	cout<<word<<endl;
- 	cout<<encryptedWord<<endl;
- 	cout<<decryptedWord<<endl;
+ 	std::cout<<"The encrypted word is :"<<encryptedWord<<endl;
+
+ 	std::cout<<"The Decryped word is :"<<decryptedWord<<endl;
 
 
 

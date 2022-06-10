@@ -114,11 +114,13 @@ Functions</h2></td></tr>
 <tr class="memdesc:a7034afa60f015a8ab6c0b836d316d4a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Funktion, die einen Zug ausfuehrt.  <a href="reversi_8cpp.html#a7034afa60f015a8ab6c0b836d316d4a4">More...</a><br /></td></tr>
 <tr class="separator:a7034afa60f015a8ab6c0b836d316d4a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cf3121558de67463e88957becd116d1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reversi_8cpp.html#a8cf3121558de67463e88957becd116d1">moeglicheZuege</a> (const int spielfeld[<a class="el" href="config_8h.html#a6e8c64412a620a46fbadb6bbf2df47fe">GROESSE_Y</a>][<a class="el" href="config_8h.html#a091c112fc29d1116c224f3d4c0fa7455">GROESSE_X</a>], const int aktuellerSpieler)</td></tr>
-<tr class="memdesc:a8cf3121558de67463e88957becd116d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Funktion, die moegliche Zuege berechnet.  <a href="reversi_8cpp.html#a8cf3121558de67463e88957becd116d1">More...</a><br /></td></tr>
+<tr class="memdesc:a8cf3121558de67463e88957becd116d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that counts possible plays.  <a href="reversi_8cpp.html#a8cf3121558de67463e88957becd116d1">More...</a><br /></td></tr>
 <tr class="separator:a8cf3121558de67463e88957becd116d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae44cf481fe71ebc30511c76190e6bc5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reversi_8cpp.html#ae44cf481fe71ebc30511c76190e6bc5d">menschlicherZug</a> (int spielfeld[<a class="el" href="config_8h.html#a6e8c64412a620a46fbadb6bbf2df47fe">GROESSE_Y</a>][<a class="el" href="config_8h.html#a091c112fc29d1116c224f3d4c0fa7455">GROESSE_X</a>], const int aktuellerSpieler)</td></tr>
+<tr class="memdesc:ae44cf481fe71ebc30511c76190e6bc5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">a function that manages a play for a human player  <a href="reversi_8cpp.html#ae44cf481fe71ebc30511c76190e6bc5d">More...</a><br /></td></tr>
 <tr class="separator:ae44cf481fe71ebc30511c76190e6bc5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a596345e24a803c4d6cc0880cdd9c6788"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reversi_8cpp.html#a596345e24a803c4d6cc0880cdd9c6788">spielen</a> (const int spielerTyp[2])</td></tr>
+<tr class="memdesc:a596345e24a803c4d6cc0880cdd9c6788"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that manages the game between the two players whether Human or Computer.  <a href="reversi_8cpp.html#a596345e24a803c4d6cc0880cdd9c6788">More...</a><br /></td></tr>
 <tr class="separator:a596345e24a803c4d6cc0880cdd9c6788"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="reversi_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
 <tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -260,6 +262,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>a function that manages a play for a human player </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spielfeld</td><td>Das aktuelle Spielfeld </td></tr>
+    <tr><td class="paramname">aktuellerSpieler</td><td>Der aktuelle Spieler </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>boolean </dd></dl>
+
 </div>
 </div>
 <a id="a8cf3121558de67463e88957becd116d1"></a>
@@ -288,7 +300,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Funktion, die moegliche Zuege berechnet. </p>
+<p>Function that counts possible plays. </p>
+<p>this function would go over all elements in the board and check if a possible play could be made at that position</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">spielfeld</td><td>Das aktuelle Spielfeld </td></tr>
@@ -296,7 +309,9 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Anzahl der Zuege fuer einen Spieler </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>number of plays that the current player can make </dd></dl>
+<p>counter for plays</p>
+<p>if play could be made, increment by 1</p>
 
 </div>
 </div>
@@ -315,6 +330,19 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Function that manages the game between the two players whether Human or Computer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spielerTyp[2]</td><td>- Array, das Typ von Spielern bestimmt(Mensch oder Computer) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<p>solange noch Zuege bei einem der beiden Spieler moeglich sind</p>
+<p>fuehre <a class="el" href="reversi_8cpp.html#ae44cf481fe71ebc30511c76190e6bc5d" title="a function that manages a play for a human player">menschlicherZug()</a> nur wenn, aktuellerSpieler einen Zug machen kann moeglicheZuege(spielfeld, aktuellerSpieler) ==0 -&gt; keine Ausfuehurng fuer aktuellerSpieller</p>
+<p>bestimmt, ob mensch oder computer den spieler machen</p>
+<p>wer hat den Spiel gewonnen?</p>
 
 </div>
 </div>
@@ -384,6 +412,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Funktion, die einen Zug ausfuehrt. </p>
+<p>this function would go in all directions(horizontal, vertical and diagonal) and would check if there are opposing disks between the current players disks, if yes, then it would change all the opposing disks to the same color as the current player disks.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">spielfeld</td><td>Das aktuelle Spielfeld </td></tr>
@@ -393,6 +422,12 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<p>Alle Richtungen ueberpruefen bis erster gueltiger Zug gefunden</p>
+<p>falls einen benachbarten gegner gibt, dann untersucht diese Richtung bis einen eignen Stein gefunden wird</p>
+<p>solange Stein sich auf Spielfeld befindet</p>
+<p>ueberpruefe, ob jetzt einen eignen Stein gefunden</p>
+<p>falls leeres feld gefunden, dann versuch eine neue Richtung</p>
 
 </div>
 </div>
@@ -445,8 +480,9 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true wenn zugGueltig, sonst false </dd></dl>
-<p>Diese Schleife geht in eine Richtung(Horizontal, Vertikal oder Diagonal) bis einen aktuellen Spieler gefunden ist. Falls keinen gefunden(ausserhalb des Feldes oder ) dann break</p>
+<dl class="section return"><dt>Returns</dt><dd>boolean </dd></dl>
+<p>falls einen benachbarten gegner gibt, dann untersucht diese Richtung bis einen eignen Stein gefunden wird</p>
+<p>falls leeres feld gefunden, dann versuch eine neue Richtung</p>
 
 </div>
 </div>

@@ -172,13 +172,12 @@ bool aufSpielfeld(const int posX, const int posY)
  * @param aktuellerSpieler Der aktuelle Spieler
  * @param posX Zu ueberpruefende Spalte
  * @param posY Zu ueberpruefende Zeile
- * @return
+ * @return  boolean
  */
 bool zugGueltig(const int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSpieler, const int posX, const int posY)
 {
     int gegner = 3 - aktuellerSpieler; // dasselbe wie: if aktuellerSpieler == 1 -> gegner = 2
                                        //               if aktuellerSpieler == 2 -> gegner = 1
-
     if (spielfeld[posY][posX] != 0) // ist das Feld leer?
     {
         return false;
@@ -189,11 +188,13 @@ bool zugGueltig(const int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSp
     {
         for (int i = -1; i <= 1; i++)
         {
-        	if(i==0 && j==0)continue;
+        	if(i==0 && j==0)continue;  //wenn no moves could be made skip this iteration and go to next
         	int newSpalte = posX + i;
         	int newZeile = posY + j;
 
-        	///falls einen benachbarten gegner gibt, dann untersucht diese Richtung bis einen eignen Stein gefunden wird
+        	if(!aufSpielfeld(newSpalte , newZeile))continue;	//skip if we are not on the board
+
+        	//falls einen benachbarten gegner gibt, dann untersucht diese Richtung bis einen eignen Stein gefunden wird
         	if(spielfeld[newZeile][newSpalte] == gegner)
         	{
         		newSpalte+=i;
@@ -216,78 +217,91 @@ bool zugGueltig(const int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSp
 
         }
     }
-
-    return false;
+    return false;	//wenn alle Richtungen untersucht werden und keinen eignen Stein gefunden, dann return false
 }
 
 
 /**
  * @brief Funktion, die einen Zug ausfuehrt
  *
+ *	this function would go in all directions(horizontal, vertical and diagonal) and would check if there are opposing disks between
+ *	the current players disks, if yes, then it would change all the opposing disks to the same color as the current player disks.
+ *
  * @param spielfeld Das aktuelle Spielfeld
  * @param aktuellerSpieler Der aktuelle Spieler
  * @param posX Die aktuelle Spalte
  * @param posY Die aktuelle Zeile
+ * @return void
  */
 void zugAusfuehren(int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSpieler, const int posX, const int posY)
 {
     int gegner = 3 - aktuellerSpieler;
+    // Alle Richtungen ueberpruefen bis erster gueltiger Zug gefunden
+     for (int j = -1; j <= 1; j++)
+     {
+    	 for (int i = -1; i <= 1; i++)
+         {
+    		 if(i==0 && j==0)continue;
+             int newSpalte = posX + i;
+             int newZeile = posY + j;
+             if(!aufSpielfeld(newSpalte , newZeile))continue;	//skip if we are not on the board
 
-
-
-
-        // Alle Richtungen ueberpruefen bis erster gueltiger Zug gefunden
-        for (int j = -1; j <= 1; j++)
-        {
-            for (int i = -1; i <= 1; i++)
-            {
-            	if(i==0 && j==0)continue;
-            	int newSpalte = posX + i;
-            	int newZeile = posY + j;
-
-            	///falls einen benachbarten gegner gibt, dann untersucht diese Richtung bis einen eignen Stein gefunden wird
-            	if(spielfeld[newZeile][newSpalte] == gegner)
+             //falls einen benachbarten gegner gibt, dann untersucht diese Richtung bis einen eignen Stein gefunden wird
+             if(spielfeld[newZeile][newSpalte] == gegner)
+             {
+            	newSpalte+=i;
+            	newZeile+=j;
+            	//solange Stein sich auf Spielfeld befindet
+            	while(aufSpielfeld(newSpalte , newZeile))
             	{
+            		//ueberpruefe, ob jetzt einen eignen Stein gefunden
+            	    if(spielfeld[newZeile][newSpalte] == aktuellerSpieler)
+            		{
+            		 //falls ja, dann aendern alle gegner Steine, bis Start stein erreicht
+            		 while(newSpalte != posX || newZeile!=posY)
+            		 {
+            			 //geh zurueck in die selbe Richtung und aendert die gegnerische Steine in eigene Steine
+            			spielfeld[newZeile][newSpalte] = aktuellerSpieler;
+            			newSpalte-=i;//gehe zuruck in x und y Richtungen
+            			newZeile-=j;
+            		 }
+            		 spielfeld[posY][posX] = aktuellerSpieler;
+            		 break;
+
+            		}
+            		if(spielfeld[newZeile][newSpalte] == 0)	///falls leeres feld gefunden, dann versuch eine neue Richtung
+            		{
+            			break;
+            		}
+
+            		//keep moving in this direction
             		newSpalte+=i;
             		newZeile+=j;
-            		//solange Stein sich auf Spielfeld befindet
-            		while(aufSpielfeld(newSpalte , newZeile))
-            		{
-            			//ueberpruefe, ob jetzt einen eignen Stein gefunden
-            			if(spielfeld[newZeile][newSpalte] == aktuellerSpieler)
-            			{
-            				//falls ja, dann aendern alle gegner Steine, bis Start stein erreicht
-            				while(newSpalte != posX || newZeile!=posY)
-            				{
-            					spielfeld[newZeile][newSpalte] = aktuellerSpieler;
-            					newSpalte-=i;//gehe zuruck in x und y Richtungen
-            					newZeile-=j;
-            				}
-            				spielfeld[posY][posX] = aktuellerSpieler;
-            				break;
-
-            			}
-            			if(spielfeld[newZeile][newSpalte] == 0)	///falls leeres feld gefunden, dann versuch eine neue Richtung
-            			{
-            				break;
-            			}
-            			newSpalte+=i;
-            			newZeile+=j;
-            		}
-            	}
-
-            }
-        }
+            	 }
+              }
+         	}
+     }
 }
 
+
+/**
+ * @brief Function that counts possible plays
+ *
+ * this function would go over all elements in the board and check if a possible play could be made at that position
+ *
+ * @param spielfeld Das aktuelle Spielfeld
+ * @param aktuellerSpieler Der aktuelle Spieler
+ * @return number of plays that the current player can make
+ */
 int moeglicheZuege(const int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSpieler)
 {
+	///counter for plays
 	int numZug = 0 ;
     for(int i = 0 ; i<GROESSE_Y ; i++)
     {
     	for(int j = 0 ; j<GROESSE_X ; j++)
     	{
-//bool zugGueltig(const int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSpieler, const int posX, const int posY)
+    		///if play could be made, increment by 1
     		if(zugGueltig(spielfeld , aktuellerSpieler , j, i))
     		{
     			numZug++;
@@ -299,6 +313,15 @@ int moeglicheZuege(const int spielfeld[GROESSE_Y][GROESSE_X], const int aktuelle
 }
 
 
+/**
+ * @brief a function that manages a play for a human player
+ *
+ *
+ *
+ * @param spielfeld Das aktuelle Spielfeld
+ * @param aktuellerSpieler Der aktuelle Spieler
+ * @return boolean
+ */
 bool menschlicherZug(int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSpieler)
 {
     if (moeglicheZuege(spielfeld, aktuellerSpieler) == 0)
@@ -306,8 +329,8 @@ bool menschlicherZug(int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSpi
         return false;
     }
 
-    int posX;
-    int posY;
+    int posX = 0 ;
+    int posY = 0 ;
     std::string symbolSpieler;
     if (aktuellerSpieler == 1)
     {
@@ -344,39 +367,82 @@ bool menschlicherZug(int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSpi
 }
 
 
+/*!
+ * @brief Function that manages the game between the two players whether Human or Computer
+ *
+*@param spielerTyp[2] - Array, das Typ von Spielern bestimmt(Mensch oder Computer)
+*@return void
+*/
 void spielen(const int spielerTyp[2])
 {
     int spielfeld[GROESSE_Y][GROESSE_X];
 
     //Erzeuge Startaufstellung
     initialisiereSpielfeld(spielfeld);
-
+    int Runde = 1;
     int aktuellerSpieler = 1;
     zeigeSpielfeld(spielfeld);
-    //moeglicheZuege(const int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSpieler)
+
 
     // solange noch Zuege bei einem der beiden Spieler moeglich sind
-    while(moeglicheZuege(spielfeld , aktuellerSpieler) >0  && moeglicheZuege(spielfeld , 3-aktuellerSpieler)>0)
+    while(moeglicheZuege(spielfeld , 3-aktuellerSpieler)>0 || moeglicheZuege(spielfeld , aktuellerSpieler)>0)
     {
 
-    	// menschlicherZug(int spielfeld[GROESSE_Y][GROESSE_X], const int aktuellerSpieler)
-    	menschlicherZug(spielfeld , aktuellerSpieler);
+
+
+    	//fuehre menschlicherZug() nur wenn, aktuellerSpieler einen Zug machen kann
+    	// moeglicheZuege(spielfeld, aktuellerSpieler) ==0 -> keine Ausfuehurng fuer aktuellerSpieller
+    	if(moeglicheZuege(spielfeld , aktuellerSpieler))
+    	{
+    		// bestimmt, ob mensch oder computer den spieler machen
+
+    		if(spielerTyp[0] == MENSCH)
+    		{
+    			menschlicherZug(spielfeld , aktuellerSpieler);
+    		}
+    		else if(spielerTyp[1] == COMPUTER)
+    		{
+    			computerZug(spielfeld , aktuellerSpieler);
+    		}
+    		/*
+    		if(spielerTyp[0] == MENSCH && aktuellerSpieler==1)
+    		{
+    			menschlicherZug(spielfeld , aktuellerSpieler);
+    		}
+    		else if(spielerTyp[0] == COMPUTER && aktuellerSpieler==1)
+    		{
+    			computerZug(spielfeld , aktuellerSpieler);
+    		}
+    		else if(spielerTyp[1] == MENSCH && aktuellerSpieler==2)
+    		{
+    		    menschlicherZug(spielfeld , aktuellerSpieler);
+    		}
+    		else if(spielerTyp[1] == COMPUTER && aktuellerSpieler==2)
+    		{
+    		    computerZug(spielfeld , aktuellerSpieler);
+    		}
+    		*/
+    		//
+    	}
+
     	aktuellerSpieler = 3-aktuellerSpieler; //change player(1->2 , 2->1)
     	zeigeSpielfeld(spielfeld);
     	std::cout<<std::endl;
+    	std::cout<<"Runden : "<<Runde<<std::endl;
+    	Runde++;
     }
 
-    
+    ///wer hat den Spiel gewonnen?
     switch (gewinner(spielfeld))
     {
     	case 0 :
     		std::cout<<"The Game ended in a draw "<<std::endl;
     		break;
     	case 1:
-    		std::cout<<"Player X has won "<<std::endl;
+    		std::cout<<"Player 1 has won "<<std::endl;
     		break;
     	case 2:
-    		std::cout<<"Player Y has won "<<std::endl;
+    		std::cout<<"Player 2 has won "<<std::endl;
     		break;
     }
 }
@@ -406,7 +472,22 @@ int main()
 
     zeigeSpielfeld(spielfeld);
 
-    int spielerTyp[2] = { MENSCH, MENSCH };  // Feld, das Informationen ueber den Typ des Spielers enthaelt. MENSCH(=1) oder COPMUTER(=2)
+    int playerOne = 2;
+    int playerTwo = 2 ;
+
+    std::cout<<"Wilkommen zum Reversi!!!"<<std::endl;
+    std::cout<<"Ist Player1 einen Mensch oder Computer? (1)=Mensch (2)=Computer"<<std::endl;
+
+    std::cin>>playerOne;
+
+
+
+    std::cout<<"Ist Player2 einen Mensch oder Computer? (1)=Mensch (2)=Computer"<<std::endl;
+
+    std::cin>>playerTwo;
+
+
+    int spielerTyp[2] = { playerOne, playerTwo };  // Feld, das Informationen ueber den Typ des Spielers enthaelt. MENSCH(=1) oder COPMUTER(=2)
     spielen(spielerTyp);
     //
     // Hier erfolgt jetzt Ihre Implementierung ...
