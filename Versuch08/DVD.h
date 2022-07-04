@@ -24,10 +24,22 @@ private:
 
 public:
 
-
+	/**
+	 *
+	 * @param initTitel - the title of the book
+	 * @param initAltersfreigabe - determines how old the user has to be to borrow DVD
+	 * @param initGenre	- genre of the dvd
+	 */
 	DVD(std::string initTitel , int initAltersfreigabe , std::string initGenre);
 	virtual void ausgabe(std::ostream& out) const;
 
+
+	/**
+	 *
+	 * @param person - class Person who will borrow DVD
+	 * @param ausleihdatum - date
+	 * @return bool - true if borrowing is successful, false otherwise
+	 */
 	virtual bool ausleihen(Person person, Datum ausleihdatum);
 
 

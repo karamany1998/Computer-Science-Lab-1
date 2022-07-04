@@ -6,7 +6,11 @@
  
 #include "Person.h"
 
-// Konstruktor
+/**
+ *
+ * @param initName - name of person
+ * @param initGeburtsdatum - date of birth of person
+ */
 Person::Person(std::string initName, Datum initGeburtsdatum)
 : name(initName)
 , geburtsdatum(initGeburtsdatum)
@@ -18,13 +22,19 @@ Person::~Person()
 {
 }
 
-// Zugriffsfunktion auf das Geburtsdatum
+/**
+ * @brief getter function for geGeburtsdatum
+ * @return Datum - data of birth of Person
+ */
 Datum Person::getGeburtsdatum() const
 {
     return geburtsdatum;
 }
 
-// Zugriffsfunktion auf den Namen
+/**
+ * @brief getter function to return name of person
+ * @return string - name of person
+ */
 std::string Person::getName() const
 {
     return name;

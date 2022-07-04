@@ -33,6 +33,11 @@ void Magazin::ausgabe(std::ostream& out) const
 bool Magazin::ausleihen(Person person, Datum ausleihdatum)
 {
 
+	//check first if the magazine medium is not borrowed before
+	bool st = Medium::ausleihen(person, ausleihdatum);
+	if(!st)return false;	//if borrowed before, then return false
+
+
 	//if the magazine got published within a month(new edition), then cannot borrow
 	if(ausleihdatum - this->date <= 1)
 	{

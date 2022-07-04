@@ -101,6 +101,7 @@ int main()
             /////////////////////////////////////////////
             case '1':
             {
+
                 mediumHinzufuegen(medien);
                 break;
             }
@@ -438,7 +439,7 @@ void alleMedienAusgeben(std::vector<Medium*>& medien)
     for (unsigned int index = 0; index < medien.size(); index++)
     {
         std::cout << "*************************************************************" << std::endl;
-        std::cout<<medien[index];
+        std::cout<<*medien[index];
     }
 }
 

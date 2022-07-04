@@ -8,6 +8,11 @@
 #include "Buch.h"
 #include "Medium.h"
 
+
+/**
+ * @brief constructor for class Buch
+
+ */
 Buch::Buch(std::string initTitel , std::string initAutor) : Medium(initTitel),  autor( initAutor)
 {
 
@@ -15,7 +20,11 @@ Buch::Buch(std::string initTitel , std::string initAutor) : Medium(initTitel),  
 
 }
 
-
+/**
+ * @print allows us to print the book
+ *
+ * @param out the output stream
+ */
 void Buch::ausgabe(std::ostream& out) const
 {
 
@@ -25,6 +34,12 @@ void Buch::ausgabe(std::ostream& out) const
 
 }
 
+/**
+ *
+ * @param person - the object of class person determines who will borrow the book
+ * @param ausleihdatum - the date of borrowing
+ * @return bool - returns true if a specific criteria for borrowing is met and false otherwise
+ */
 bool Buch::ausleihen(Person person , Datum ausleihdatum)
 {
 
